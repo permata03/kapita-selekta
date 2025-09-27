@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laman Pribadi – RASP Kapita Selekta</title>
+  <meta name="description" content="Anggi Permata Sari" />
+  <style>
+    :root{
+      --bg: #020c47;
+      --fg: #f8f9fb;
+      --muted: #cfd3e6;
+      --card: #15183a;
+      --accent1: #e5e4e7; /* violet */
+      --accent2: #06b6d4; /* cyan */
+      --accent3: #06b6d4; /* orange */
+      --accent4: #06b6d4; /* green */
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Inter,Helvetica,Arial,sans-serif;}
+
+    /* Background gradient blobs */
+    .bg-blob{position:fixed;inset:auto -20% -20% auto;filter:blur(80px);opacity:.4;z-index:-1}
+    .bg-blob::before,.bg-blob::after{content:"";position:absolute;border-radius:50%}
+    .bg-blob::before{width:520px;height:520px;background:radial-gradient( circle at 30% 30%, var(--accent1), transparent 60% );right:10%;bottom:10%}
+    .bg-blob::after{width:520px;height:520px;background:radial-gradient( circle at 70% 70%, var(--accent2), transparent 60% );right:40%;bottom:30%}
+
+    header{
+      position:sticky;top:0;backdrop-filter:saturate(1.4) blur(10px);
+      background:linear-gradient( to right, rgba(16,18,44,.65), rgba(16,18,44,.2) );
+      border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:50
+    }
+    .nav{max-width:1100px;margin:auto;display:flex;align-items:center;gap:12px;padding:12px 20px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px}
+    .brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2))}
+    nav a{color:var(--fg);text-decoration:none;padding:10px 14px;border-radius:999px;font-weight:600;opacity:.9}
+    nav a:hover{background:rgba(255,255,255,.08)}
+
+    .hero{max-width:1100px;margin:28px auto 0;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;padding:0 20px 20px}
+    .card{background:linear-gradient( to bottom right, rgba(255,255,255,.06), rgba(255,255,255,.03) );border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero .intro{padding:28px}
+    h1{margin:0 0 10px;font-size:clamp(28px,4vw,44px);line-height:1.1}
+    .grad-text{background:linear-gradient( 135deg, var(--accent1), var(--accent2) );-webkit-background-clip:text;background-clip:text;color:transparent}
+    .subtitle{color:var(--muted);font-size:15px}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .tag{font-size:12px;padding:6px 10px;border-radius:999px;border:1px dashed rgba(255,255,255,.22);opacity:.9}
+
+    .profile{display:grid;place-items:center;padding:26px}
+    .avatar{
+      width:220px;height:220px;border-radius:50%;
+      background:#0b0f2a url('foto anggi.jpeg') center/cover no-repeat;
+      border:6px solid rgba(255,255,255,.08);
+      box-shadow:0 20px 50px rgba(139,92,246,.25);
+      position:relative;overflow:hidden
+    }
+    .avatar::after{content:"";position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:11px;color:#fff;background:rgba(0,0,0,.35);padding:4px 8px;border-radius:999px}
+
+    main{max-width:1100px;margin:8px auto 80px;padding:0 20px;display:grid;gap:18px}
+
+    .section{padding:22px 22px 18px}
+    .section h2{margin:0 0 12px;font-size:clamp(20px,3vw,28px)}
+    .section p{color:#e5e7f3;line-height:1.65}
+
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .col-6{grid-column:span 6}
+    .col-12{grid-column:span 12}
+
+    .pill-title{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13px;color:#0b1027;background:linear-gradient(135deg,#fff,#eaeafe);padding:6px 12px;border-radius:999px;margin-bottom:10px}
+
+    .list{display:grid;gap:10px;margin:8px 0}
+    .item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:14px;border-radius:14px}
+    .item b{color:#fff}
+
+    /* Color accents per section */
+    .ks{border-left:6px solid var(--accent2)}
+    .karakter{border-left:6px solid var(--accent1)}
+    .swot{border-left:6px solid var(--accent4)}
+    .porter{border-left:6px solid var(--accent3)}
+    .oss{border-left:6px solid #06b6d4}
+
+    /* Footer */
+    footer{max-width:1100px;margin:0 auto 60px;padding:0 20px}
+    .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted)}
+
+    /* Buttons */
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;border:none;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer
+    }
+    .btn.outline{background:transparent;border:1px solid rgba(255,255,255,.18)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .col-6{grid-column:span 12}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blob" aria-hidden="true"></div>
+  <header>
+    <div class="nav">
+      <div class="brand"><span class="dot"></span> <span>About Me</span></div>
+      <nav style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap">
+        <a href="#ks">Konsep Dasar</a>
+        <a href="#karakter">Karakteristik</a>
+        <a href="#swot">SWOT</a>
+        <a href="#porter">Porter</a>
+        <a href="#oss">Open Source</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="card intro">
+      <div class="pill-title">Anggi Permata Sari</div>
+      <h1>Halo, saya <span class="grad-text">Anggi</span> !!</h1>
+      <p class="subtitle">Hai, selamat datang di sudut kecilku di internet. 
+Di sini aku cuma mau berbagi cerita tentang diriku, hal-hal yang aku suka, sedikit analisis versi aku sendiri, dan pandangan tentang dunia di sekitarku. Anggap aja lagi main ke rumah virtual aku 🌸</p>
+      <div class="tags">
+        <span class="tag">AI · Data Mining</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">Decision Tree</span>
+        <span class="tag">Banking Use Case</span>
+      </div>
+      <div class="btns">
+        <a class="btn" href="#swot">Baca Analisis SWOT</a>
+        <a class="btn outline" href="#porter">Lihat 5 Kekuatan Porter</a>
+      </div>
+    </div>
+    <div class="card profile" aria-label="Foto Profil">
+      <div class="avatar" title="Ganti dengan foto kamu: simpan file sebagai 'foto anggi.jpeg' di folder yang sama dengan file HTML ini."></div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- Karakteristik KS -->
+    <section id="karakter" class="section card karakter">
+      <h2>Karakteristik Kapita Selekta</h2>
+      <div class="grid">
+        <div class="col-6">
+          <div class="item"><b>Selektif & Kontekstual:</b> topik dipilih sesuai tren/ kebutuhan (AI, Big Data, perbankan).</div>
+        </div>
+        <div class="col-6">
+          <div class="item"><b>Interdisipliner:</b> menggabungkan rekayasa perangkat lunak, sains data, dan bisnis.</div>
+        </div>
+        <div class="col-6">
+          <div class="item"><b>Berbasis Proyek:</b> menuntut artefak konkret (laporan, demo, laman pribadi).</div>
+          </div>
+        <div class="col-6">
+          <div class="item"><b>Reflektif:</b> ada evaluasi diri melalui SWOT dan pemetaan lingkungan via Porter.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SWOT -->
+    <section id="swot" class="section card swot">
+      <h2>Analisis SWOT – Tentang Saya</h2>
+      <p>Ringkasan dari tugas tertulis: fokus riset <b>AI & Big Data</b> (subbidang <b>Data Mining</b>) untuk studi kasus perbankan, khususnya <i>Decision Tree</i> pada evaluasi kelayakan kredit.</p>
+      <div class="grid">
+        <div class="col-6">
+          <div class="item"><b>Strengths (Kekuatan)</b><br/>Sudah menempuh Jaringan Syaraf Tiruan, Data Mining, Machine Learning, dan Sistem Pakar; menguasai pemrograman untuk implementasi <i>Decision Tree</i>.</div>
+        </div>
+        <div class="col-6">
+          <div class="item"><b>Weaknesses (Kelemahan)</b><br/>Pengalaman praktik industri terbatas; evaluasi model prediktif perlu diperdalam agar hasil lebih optimal.</div>
+        </div>
+        <div class="col-6">
+          <div class="item"><b>Opportunities (Peluang)</b><br/>Industri perbankan menuntut solusi analitik; kerja praktik dapat menjadi landasan skripsi & portofolio relevan.</div>
+        </div>
+        <div class="col-6">
+          <div class="item"><b>Threats (Ancaman)</b><br/>Akses data nasabah terbatas (privasi/regulasi); perubahan teknologi cepat sehingga perlu pembaruan kompetensi berkelanjutan.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Porter -->
+    <section id="porter" class="section card porter">
+      <h2>Analisis Porter – Lingkungan Saya & Rekan</h2>
+      <div class="list">
+        <div class="item"><b>1) Rivalry among Competitors – Tinggi:</b> banyak fintech/startup AI menawarkan analitik untuk perbankan → bank harus terus berinovasi.</div>
+        <div class="item"><b>2) Threat of New Entrants – Cukup Tinggi:</b> tools open source (Python, R, RapidMiner) mudah diakses → pemain baru relatif mudah masuk.</div>
+        <div class="item"><b>3) Bargaining Power of Suppliers – Sedang:</b> ketergantungan pada infrastruktur TI (cloud, GPU, DB); biaya & integrasi bisa jadi hambatan.</div>
+        <div class="item"><b>4) Bargaining Power of Buyers – Tinggi:</b> nasabah punya banyak pilihan layanan (konvensional vs digital) → tuntutan cepat, aman, berbasis data.</div>
+        <div class="item"><b>5) Threat of Substitutes – Sedang:</b> metode tradisional masih ada, tetapi makin ditinggalkan karena kurang efisien dibanding AI/Data Mining.</div>
+      </div>
+    </section>
+
+    <!-- Open Source Philosophy -->
+    <section id="oss" class="section card oss">
+      <h2>Filsafat Open Source</h2>
+      <p><b>Open Source</b> menekankan kebebasan untuk menggunakan, mempelajari, memodifikasi, dan mendistribusikan perangkat lunak. Di konteks RASP & Kapita Selekta, filosofi ini relevan karena:</p>
+      <div class="list">
+        <div class="item"><b>Transparansi:</b> kode & model dapat diaudit, meningkatkan akuntabilitas ilmiah.</div>
+        <div class="item"><b>Kolaborasi:</b> komunitas berkontribusi mempercepat inovasi (library seperti <i>scikit-learn</i>, <i>pandas</i>).</div>
+        <div class="item"><b>Aksesibilitas:</b> menurunkan biaya eksperimen pendidikan & riset.</div>
+        <div class="item"><b>Keberlanjutan:</b> mendorong dokumentasi, lisensi jelas (MIT, Apache-2.0, GPL), dan reproduktibilitas.</div>
+      </div>
+      <p style="margin-top:10px">Catatan etika: hormati lisensi, cantumkan atribusi, dan jaga data pribadi—khususnya pada domain perbankan.</p>
+    </section>
+
+     <!-- Konsep Dasar Kapita Selekta -->
+    <section id="ks" class="section card ks">
+      <h2>Konsep Dasar Kapita Selekta (KS)</h2>
+      <p><b>Kapita Selekta</b> adalah pendekatan pembelajaran dengan topik-topik terpilih (selected topics) yang relevan, aktual, dan beririsan erat dengan kebutuhan industri serta perkembangan keilmuan. Di mata kuliah ini, fokus diarahkan pada <b>RASP</b> dan penguatan fondasi berpikir strategis—mulai dari perumusan masalah, pemetaan konteks, hingga perencanaan solusi yang terukur.</p>
+      <div class="list">
+        <div class="item"><b>Tujuan:</b> membangun kemampuan merangkum isu inti, memilih metode yang tepat, dan mengkomunikasikan hasil secara jelas.</div>
+        <div class="item"><b>Ruang lingkup:</b> dari literasi konsep (AI, Data Mining) sampai aplikasi (mis. evaluasi kelayakan kredit) dengan penekanan praktik.</div>
+        <div class="item"><b>Outcome:</b> produk berupa tulisan/laman, analisis (SWOT, Porter), dan sikap profesional yang memahami etika serta kolaborasi.</div>
+      </div>
+    </section>
+    
+    <!-- Rencana Singkat Penelitian (opsional dari tugas) -->
+    <section class="section card">
+      <h2>Rencana Singkat Penelitian (Opsional)</h2>
+      <div class="list">
+        <div class="item"><b>Judul:</b> Implementasi Data Mining dengan Metode Decision Tree dalam Evaluasi Kelayakan Kredit Nasabah.</div>
+        <div class="item"><b>SWEBOK Terkait:</b> Requirements, Design, Construction, Testing, Engineering Process.</div>
+        <div class="item"><b>Outcome:</b> model pohon keputusan teruji (akurasi), rekomendasi integrasi ke proses bisnis.</div>
+      </div>
+    </section>
+
+       <section id="organisasi" class="section card">
+      <h2>Pengalaman Organisasi</h2>
+      <div class="list">
+        <div class="item">
+          <b>Badan Eksekutif Mahasiswa Fakultas Teknik (BEM FT)</b><br/>
+          Staff Dinas Kominfo (2023–2024)<br/>
+        </div>
+        <div class="item">
+          <b>Himpunan Mahasiswa Jurusan Teknik Elektro (HIMATRO)</b><br/>
+          Departemen Kominfo (2023–sekarang)<br/>
+        </div>
+      </div>
+
+      <!-- Galeri Foto -->
+      <h3 style="margin-top:20px">Galeri Kegiatan</h3>
+      <div class="grid">
+        <div class="col-6">
+        <div class="col-6">
+          <img src="WhatsApp Image 2025-09-26 at 15.25.26 (1).jpeg" alt="Kegiatan organisasi 2" style="width:100%;border-radius:12px">
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer>
+    <div class="foot">
+      <div>© 2025 Anggi Permata Sari · PSTI – FT Unila</div>
+      <div style="display:flex;gap:8px">
+        <a href="#ks" style="color:var(--muted);text-decoration:none">Ke Atas ↑</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
